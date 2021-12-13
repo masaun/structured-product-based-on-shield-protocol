@@ -1,6 +1,10 @@
+# NPM-related files
 node_modules
+package-lock.json
+
+# Secret files
 .env
 
-#Hardhat files
+# Hardhat files
 cache
 artifacts
