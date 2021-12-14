@@ -26,8 +26,9 @@ module.exports = {
   networks: {
     hardhat: {  /// [Note]: This network is for executing test with mainnet-fork approach
       forking: {
-        url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
-        blockNumber: 11589707    
+        url: `https://data-seed-prebsc-2-s3.binance.org:8545/`,  /// Endpoint of BSC testnet
+        //url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
+        blockNumber: 11589707
       }
     },
     velas_testnet: {
