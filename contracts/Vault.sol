@@ -26,10 +26,20 @@ contract Vault {
 
     /**
      * @dev - A user participate in a vault
+     * @dev - A user deposit some amount of tokens into the vault
      */ 
-    function participateInVault() public returns (bool) {
+    function depositIntoVault(uint depositAmount) public returns (bool) {
         // [Todo]: 
         address user = msg.sender;
     }
+
+    /**
+     * @dev - A user withdraw specified-amount of tokens from the vault
+     */ 
+    function withdrawFromVault(uint withdrawalAmount) public returns (bool) {
+        // [Todo]: 
+        address user = msg.sender;
+    }
+
 
 }
