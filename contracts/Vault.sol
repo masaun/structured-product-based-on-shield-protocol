@@ -9,12 +9,28 @@ import { VaultStorages } from "./vault-commons/VaultStorages.sol";
  */ 
 contract Vault is VaultStorages {
 
-    constructor(address issuer) public {
-        // [Todo]: 
-        VaultInfo storage vaultInfo = vaultInfos[issuer];
-        vaultInfo.issuedAt = block.timestamp;
-        vaultInfo.maturedAt = 0;
-    
+    constructor(
+        address _issuer,
+        uint _issuedAt,
+        uint _maturedAt,
+        uint _maxCapacity,
+        uint _marginRatio,
+        uint _minimumRatio,
+        uint _subscriptionPeriodAt,
+        uint _lockupPeriodAt,
+        uint _windowPeriodAt,
+        VaultType _vaultType
+    ) public {
+        VaultInfo storage vaultInfo = vaultInfos[_issuer];
+        vaultInfo.issuedAt = _issuedAt;
+        vaultInfo.maturedAt = _maturedAt;
+        vaultInfo.maxCapacity = _maxCapacity;
+        vaultInfo.marginRatio = _marginRatio;
+        vaultInfo.minimumRatio = _minimumRatio;
+        vaultInfo.subscriptionPeriodAt = _subscriptionPeriodAt;
+        vaultInfo.lockupPeriodAt = _lockupPeriodAt;
+        vaultInfo.windowPeriodAt = _windowPeriodAt;
+        vaultInfo.vaultType = _vaultType;
     }
 
     /**
