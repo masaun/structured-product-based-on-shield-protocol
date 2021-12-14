@@ -7,7 +7,6 @@
     "test:Scenario": "npx hardhat test ./test/scenario.test.js --network hardhat",
     "compile": "npx hardhat compile",
     "deploy:sample": "npx hardhat run scripts/deployment/sample-deploy.js",
-    "deploy:velas_testnet": "npx hardhat run scripts/deploy.js --network velas_testnet",
     "node": "npx hardhat node",
     "script:Sample": "npx hardhat run scripts/sample-script.js"
   },

@@ -1,23 +1,25 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.6.12;
 
-import "hardhat/console.sol";
 
+/**
+ * @dev - This is the smart contract that deal with a structured-product based on the Shield Protocol
+ */ 
 contract StructuredProduct {
 
-    string private greeting;
-
-    constructor(string memory _greeting) public {
-        console.log("Deploying a Greeter with greeting:", _greeting);
-        greeting = _greeting;
+    constructor() public {
+        // [Todo]: 
     }
 
-    function greet() public view returns (string memory) {
-        return greeting;
-    }
 
-    function setGreeting(string memory _greeting) public {
-        console.log("Changing greeting from '%s' to '%s'", greeting, _greeting);
-        greeting = _greeting;
-    }
+    function setSomething(string memory _something) public {}
+
+
+    //------------------------------------
+    // Getter methods
+    //------------------------------------
+
+    function getSomething() public view returns (string memory) {}
+
+
 }
