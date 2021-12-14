@@ -7,6 +7,8 @@ pragma solidity ^0.6.12;
  */ 
 contract VaultStorages {
 
+    mapping (address => VaultInfo) vaultInfos;  // [Key]: issuer's address -> VaultInfo struct
+
     struct VaultInfo {
         uint issuedAt;
         uint subscriptionPeriodAt;
@@ -14,6 +16,20 @@ contract VaultStorages {
         uint windowPeriodAt;  // [NOTE]: Every time that a window period is updated, this value assigned is also updated
         uint maturedAt;
     }
-    mapping (address => VaultInfo) vaultInfos;  // [Key]: issuer's address -> VaultInfo struct
+
+
+    /**
+     * @dev - Vaults type:
+     *  a.100% capital protected at maturity with an interest guarantee, customize the margin and APY
+     *  b.100% capital protected at maturity without interest guarantee, customize the margin and APY is 0
+     *  c.non capital protected at maturity with limited loss, customize max loss ratio
+     *  d.non capital protected at maturity without max loss, customize 100% loss percentage
+     */
+    enum VaultType { 
+        100_PERCENT_CAPITAL_PROTECTED_AT_MATURITY_WITH_AN_INTEREST_GUARANTEE,
+        100_PERCENT_CAPITAL_PROTECTED_AT_MATURITY_WITHOUT_AN_INTEREST_GUARANTEE,
+        NON_CAPITAL_PROTECTED_AT_MATURITY_WITH_LIMITED_LOSS,
+        NON_CAPITAL_PROTECTED_AT_MATURITY_WITHOUT_MAX_LOSS,
+    }
 
 }
