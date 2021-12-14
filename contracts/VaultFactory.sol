@@ -11,12 +11,18 @@ contract VaultFactory {
 
     Vault public vault;
 
+    address[] public vaultAddresses;
+
     constructor(Vault _vault) public {
         vault = _vault;
     }
 
-    function setSomething() public returns (bool) {
-        // [Todo]: 
+    function createVault() public returns (bool) {
+        address issuer = msg.sender;
+
+        Vault vault = new Vault(issuer);
+        address VAULT = address(vault);
+        vaultAddresses.push(VAULT);
     }
 
 }

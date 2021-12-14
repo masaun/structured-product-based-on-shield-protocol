@@ -7,7 +7,7 @@ pragma solidity ^0.6.12;
  */ 
 contract Vault {
 
-    constructor() public {
+    constructor(address issuer) public {
         // [Todo]: 
     }
 
