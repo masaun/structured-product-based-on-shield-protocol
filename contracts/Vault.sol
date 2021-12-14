@@ -8,8 +8,10 @@ pragma solidity ^0.6.12;
 contract Vault {
 
     struct VaultInfo {
-        // [Todo]:
         uint issuedAt;
+        uint subscriptionPeriodAt;
+        uint lockupPeriodAt;  // [NOTE]: Every time that a lock up period is updated, this value assigned is also updated
+        uint windowPeriodAt;  // [NOTE]: Every time that a window period is updated, this value assigned is also updated
         uint maturedAt;
     }
     mapping (address => VaultInfo) vaultInfos;  // [Key]: issuer's address -> VaultInfo struct
