@@ -31,8 +31,8 @@ module.exports = {
         blockNumber: 11589707
       }
     },
-    velas_testnet: {
-      url: `https://explorer.testnet.velas.com/rpc`,
+    bsc_testnet: {
+      url: `https://data-seed-prebsc-2-s3.binance.org:8545/`,  /// Endpoint of BSC testnet
       //accounts: [process.env.RINKEBY_PRIVKEY]
     },
     // rinkeby: {
