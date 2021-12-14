@@ -6,7 +6,8 @@
     "test:Sample": "npx hardhat test ./test/sample/sample-test.js --network hardhat",
     "test:Scenario": "npx hardhat test ./test/scenario.test.js --network hardhat",
     "compile": "npx hardhat compile",
-    "deploy:sample": "npx hardhat run scripts/deployment/sample-deploy.js",
+    "deploy-local:StructuredProduct": "npx hardhat run scripts/deployment/00_deploy_StructuredProduct.js --network hardhat",
+    "deploy-bsc_testnet:StructuredProduct": "npx hardhat run scripts/deployment/00_deploy_StructuredProduct.js --network bsc_testnet",
     "node": "npx hardhat node",
     "script:Sample": "npx hardhat run scripts/sample-script.js"
   },
