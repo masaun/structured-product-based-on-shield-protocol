@@ -22,8 +22,12 @@ contract Vault {
     
     }
 
-    function setSomething() public returns (bool) {
+    /**
+     * @dev - A user participate in a vault
+     */ 
+    function participateInVault() public returns (bool) {
         // [Todo]: 
+        address user = msg.sender;
     }
 
 }

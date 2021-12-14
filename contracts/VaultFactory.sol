@@ -15,7 +15,10 @@ contract VaultFactory {
         // [Todo]: 
     }
 
-    function createVault() public returns (bool) {
+    /**
+     * @dev - A issuer issue a new vault
+     */ 
+    function issueVault() public returns (bool) {
         address issuer = msg.sender;
 
         Vault vault = new Vault(issuer);
