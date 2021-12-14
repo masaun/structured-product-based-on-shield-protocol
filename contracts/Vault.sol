@@ -7,8 +7,19 @@ pragma solidity ^0.6.12;
  */ 
 contract Vault {
 
+    struct VaultInfo {
+        // [Todo]:
+        uint issuedAt;
+        uint maturedAt;
+    }
+    mapping (address => VaultInfo) vaultInfos;  // [Key]: issuer's address -> VaultInfo struct
+
     constructor(address issuer) public {
         // [Todo]: 
+        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        vaultInfo.issuedAt = block.timestamp;
+        vaultInfo.maturedAt = 0;
+    
     }
 
     function setSomething() public returns (bool) {

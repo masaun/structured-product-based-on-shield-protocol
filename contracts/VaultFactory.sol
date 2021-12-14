@@ -9,12 +9,10 @@ import { Vault } from "./Vault.sol";
  */ 
 contract VaultFactory {
 
-    Vault public vault;
-
     address[] public vaultAddresses;
 
-    constructor(Vault _vault) public {
-        vault = _vault;
+    constructor() public {
+        // [Todo]: 
     }
 
     function createVault() public returns (bool) {
