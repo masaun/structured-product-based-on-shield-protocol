@@ -67,5 +67,28 @@ contract Vault is VaultStorages {
         uint fundRaisingAmount = targetRaisdAmount * (100 - _marginRatio);
     }
 
+    /**
+     * @dev - Fund locked in the Private Pool
+     */ 
+    function fundlocked() public returns (bool) {
+        // [Todo]: 
+        address issuer = msg.sender;
+    }
+
+    /**
+     * @dev - Start earning order-taking profits
+     */ 
+    function startEarningOrderTakingProfits() public returns (bool) {
+        // [Todo]: 
+        address issuer = msg.sender;
+    }
+
+    /**
+     * @dev - Vault due/ADL
+     */ 
+    function vaultDueADL() public returns (bool) {
+        // [Todo]: 
+        address issuer = msg.sender;
+    }
 
 }
