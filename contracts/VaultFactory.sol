@@ -21,6 +21,7 @@ contract VaultFactory {
      */ 
     function issueVault(
         uint maturedAt,
+        uint targetRaisdAmount,
         uint maxCapacity,
         uint marginRatio,
         uint minimumRatio,
@@ -32,9 +33,11 @@ contract VaultFactory {
         address issuer = msg.sender;
         uint issuedAt = block.timestamp;
 
+        //@dev - Issue a new vault
         Vault vault = new Vault(issuer, 
                                 issuedAt,
                                 maturedAt,
+                                targetRaisdAmount,
                                 maxCapacity,
                                 marginRatio,
                                 minimumRatio,
