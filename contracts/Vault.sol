@@ -50,9 +50,15 @@ contract Vault is VaultStorages {
     /**
      * @dev - A user withdraw specified-amount of assets (tokens) from the vault
      */ 
-    function withdrawAssets(uint withdrawalAmount) public returns (bool) {
-        // [Todo]: 
+    function withdrawAssets(IERC20 stablecoin) public returns (bool) {
         address user = msg.sender;
+
+        // [Todo]: Assign proper value (amount) into each variable below
+        uint principleAmount;
+        uint interestAmount;   // NOTE: Interest amount earned
+
+        uint withdrawalAmount = principleAmount + interestAmount;
+        stablecoin.transfer(user, withdrawalAmount);
     }
 
     /**
