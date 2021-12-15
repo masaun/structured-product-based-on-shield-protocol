@@ -32,6 +32,10 @@ contract VaultFactory {
         address issuer = msg.sender;
         uint issuedAt = block.timestamp;
 
+        //@dev - A issuer deposit margin 
+        _depositMargin();
+
+        //@dev - Issue a new vault
         Vault vault = new Vault(issuer, 
                                 issuedAt,
                                 maturedAt,
@@ -45,5 +49,14 @@ contract VaultFactory {
         address VAULT = address(vault);
         vaultAddresses.push(VAULT);
     }
+
+
+    /**
+     * @dev - A issuer deposit margin (when they issue a new vault)
+     */ 
+    function _depositMargin() internal returns (bool) {
+        // [Todo]:
+    }
+
 
 }
