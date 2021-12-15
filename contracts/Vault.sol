@@ -50,5 +50,22 @@ contract Vault is VaultStorages {
         address user = msg.sender;
     }
 
+    /**
+     * @dev - A issuer deposit margin (after a new vault is issued)
+     *
+     * @dev - The margin ratio and minimum margin are customizable
+     *        => Note of margin: the target raised amount is $1M, and 30% as margin ratio, the issuer needs to deposit $300K while the actual fund-raising amount is $700K.
+     */ 
+    function depositMargin() public returns (bool) {
+        address issuer = msg.sender;
+        
+        VaultInfo memory vaultInfo = vaultInfos[issuer];
+        uint _marginRatio = vaultInfo.marginRatio;
+    
+        //@dev - Calculate the actual fund-raising amount
+        uint targetRaisdAmount;  // [TODO]: Need to add a property of target raised amount to the VaultInfo struct
+        uint fundRaisingAmount = targetRaisdAmount * (100 - _marginRatio);
+    }
+
 
 }
