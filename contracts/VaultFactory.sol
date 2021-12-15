@@ -26,6 +26,7 @@ contract VaultFactory {
         uint marginRatio,
         uint minimumRatio,
         uint subscriptionPeriodAt,
+        uint investmentPeriodAt,
         uint lockupPeriodAt,
         uint windowPeriodAt,
         VaultStorages.VaultType vaultType  // [NOTE]: Value referenced from the VaultType enum is assigned  
@@ -42,6 +43,7 @@ contract VaultFactory {
                                 marginRatio,
                                 minimumRatio,
                                 subscriptionPeriodAt,
+                                investmentPeriodAt,
                                 lockupPeriodAt,
                                 windowPeriodAt,
                                 vaultType);

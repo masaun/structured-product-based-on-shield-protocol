@@ -20,6 +20,7 @@ contract Vault is VaultStorages {
         uint _marginRatio,
         uint _minimumRatio,
         uint _subscriptionPeriodAt,
+        uint _investmentPeriodAt,
         uint _lockupPeriodAt,
         uint _windowPeriodAt,
         VaultType _vaultType
@@ -32,6 +33,7 @@ contract Vault is VaultStorages {
         vaultInfo.marginRatio = _marginRatio;
         vaultInfo.minimumRatio = _minimumRatio;
         vaultInfo.subscriptionPeriodAt = _subscriptionPeriodAt;
+        vaultInfo.investmentPeriodAt = _investmentPeriodAt;
         vaultInfo.lockupPeriodAt = _lockupPeriodAt;
         vaultInfo.windowPeriodAt = _windowPeriodAt;
         vaultInfo.vaultType = _vaultType;
@@ -39,7 +41,7 @@ contract Vault is VaultStorages {
 
     /**
      * @dev - A user participate in a vault
-     * @dev - A user deposit specified-amount of assets (tokens) into the vault
+     * @dev - A user deposit specified-amount of assets (USDT) into the vault
      */ 
     function depositAssets(IERC20 usdt, uint depositAmount) public returns (bool) {
         //@dev - In advance, a caller (user) should approve their marginAmount of usdt.
@@ -48,7 +50,7 @@ contract Vault is VaultStorages {
     }
 
     /**
-     * @dev - A user withdraw specified-amount of assets (tokens) from the vault
+     * @dev - A user withdraw specified-amount of assets (USDT) from the vault
      */ 
     function withdrawAssets(IERC20 usdt) public returns (bool) {
         address user = msg.sender;
