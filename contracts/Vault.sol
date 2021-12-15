@@ -1,6 +1,8 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.6.12;
 
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
 import { VaultStorages } from "./vault-commons/VaultStorages.sol";
 
 
@@ -58,16 +60,27 @@ contract Vault is VaultStorages {
      * @dev - The margin ratio and minimum margin are customizable
      *        => Note of margin: the target raised amount is $1M, and 30% as margin ratio, the issuer needs to deposit $300K while the actual fund-raising amount is $700K.
      */ 
-    function depositMargin() public returns (bool) {
+    function depositMargin(IERC20 stablecoin) public returns (bool) {
         address issuer = msg.sender;
         
         VaultInfo memory vaultInfo = vaultInfos[issuer];
         uint _targetRaisdAmount = vaultInfo.targetRaisdAmount;
         uint _marginRatio = vaultInfo.marginRatio;
     
+        //@dev - A issuer deposit the margin amount based on the margin ratio
+        _depositMargin(issuer, stablecoin, _targetRaisdAmount, _marginRatio);
+        //uint marginAmount = _targetRaisdAmount * _marginRatio;
+        //stablecoin.transferFrom(issuer, address(this), marginAmount);
+
         //@dev - Calculate the actual fund-raising amount
         uint fundRaisingAmount = _targetRaisdAmount * (100 - _marginRatio);
     }
+
+    function _depositMargin(address issuer, IERC20 stablecoin, uint targetRaisdAmount, uint marginRatio) internal returns (bool) {
+        uint marginAmount = targetRaisdAmount * marginRatio;
+        stablecoin.transferFrom(issuer, address(this), marginAmount);
+    }
+
 
     /**
      * @dev - Fund locked in the Private Pool
