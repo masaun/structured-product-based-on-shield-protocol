@@ -16,6 +16,7 @@ contract VaultStorages is VaultEnums {
         uint maturedAt;
 
         // 1) Customize the max capacity for each vault, with USDT as the default currency.
+        uint targetRaisdAmount;
         uint maxCapacity;
 
         // 2) Customize the margin ratio and minimum margin

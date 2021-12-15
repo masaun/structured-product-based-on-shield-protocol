@@ -13,6 +13,7 @@ contract Vault is VaultStorages {
         address _issuer,
         uint _issuedAt,
         uint _maturedAt,
+        uint _targetRaisdAmount,
         uint _maxCapacity,
         uint _marginRatio,
         uint _minimumRatio,
@@ -24,6 +25,7 @@ contract Vault is VaultStorages {
         VaultInfo storage vaultInfo = vaultInfos[_issuer];
         vaultInfo.issuedAt = _issuedAt;
         vaultInfo.maturedAt = _maturedAt;
+        vaultInfo.targetRaisdAmount = _targetRaisdAmount;
         vaultInfo.maxCapacity = _maxCapacity;
         vaultInfo.marginRatio = _marginRatio;
         vaultInfo.minimumRatio = _minimumRatio;
@@ -60,11 +62,11 @@ contract Vault is VaultStorages {
         address issuer = msg.sender;
         
         VaultInfo memory vaultInfo = vaultInfos[issuer];
+        uint _targetRaisdAmount = vaultInfo.targetRaisdAmount;
         uint _marginRatio = vaultInfo.marginRatio;
     
         //@dev - Calculate the actual fund-raising amount
-        uint targetRaisdAmount;  // [TODO]: Need to add a property of target raised amount to the VaultInfo struct
-        uint fundRaisingAmount = targetRaisdAmount * (100 - _marginRatio);
+        uint fundRaisingAmount = _targetRaisdAmount * (100 - _marginRatio);
     }
 
     /**

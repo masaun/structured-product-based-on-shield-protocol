@@ -21,6 +21,7 @@ contract VaultFactory {
      */ 
     function issueVault(
         uint maturedAt,
+        uint targetRaisdAmount,
         uint maxCapacity,
         uint marginRatio,
         uint minimumRatio,
@@ -36,6 +37,7 @@ contract VaultFactory {
         Vault vault = new Vault(issuer, 
                                 issuedAt,
                                 maturedAt,
+                                targetRaisdAmount,
                                 maxCapacity,
                                 marginRatio,
                                 minimumRatio,
