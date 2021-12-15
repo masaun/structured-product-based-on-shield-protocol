@@ -41,17 +41,24 @@ contract Vault is VaultStorages {
      * @dev - A user participate in a vault
      * @dev - A user deposit specified-amount of assets (tokens) into the vault
      */ 
-    function depositAssets(uint depositAmount) public returns (bool) {
-        // [Todo]: 
+    function depositAssets(IERC20 stablecoin, uint depositAmount) public returns (bool) {
+        //@dev - In advance, a caller (user) should approve their marginAmount of stablecoin.
         address user = msg.sender;
+        stablecoin.transferFrom(user, address(this), depositAmount);
     }
 
     /**
      * @dev - A user withdraw specified-amount of assets (tokens) from the vault
      */ 
-    function withdrawAssets(uint withdrawalAmount) public returns (bool) {
-        // [Todo]: 
+    function withdrawAssets(IERC20 stablecoin) public returns (bool) {
         address user = msg.sender;
+
+        // [Todo]: Assign proper value (amount) into each variable below
+        uint principleAmount;
+        uint interestAmount;   // NOTE: Interest amount earned
+
+        uint withdrawalAmount = principleAmount + interestAmount;
+        stablecoin.transfer(user, withdrawalAmount);
     }
 
     /**
@@ -69,14 +76,13 @@ contract Vault is VaultStorages {
     
         //@dev - A issuer deposit the margin amount based on the margin ratio
         _depositMargin(issuer, stablecoin, _targetRaisdAmount, _marginRatio);
-        //uint marginAmount = _targetRaisdAmount * _marginRatio;
-        //stablecoin.transferFrom(issuer, address(this), marginAmount);
 
         //@dev - Calculate the actual fund-raising amount
         uint fundRaisingAmount = _targetRaisdAmount * (100 - _marginRatio);
     }
 
     function _depositMargin(address issuer, IERC20 stablecoin, uint targetRaisdAmount, uint marginRatio) internal returns (bool) {
+        //@dev - In advance, a caller (issuer) should approve their marginAmount of stablecoin.
         uint marginAmount = targetRaisdAmount * marginRatio;
         stablecoin.transferFrom(issuer, address(this), marginAmount);
     }
