@@ -40,30 +40,6 @@ contract Vault is VaultStorages {
     }
 
     /**
-     * @dev - A user participate in a vault
-     * @dev - A user deposit specified-amount of assets (USDT) into the vault
-     */ 
-    function depositAssets(IERC20 usdt, uint depositAmount) public returns (bool) {
-        //@dev - In advance, a caller (user) should approve their marginAmount of usdt.
-        address user = msg.sender;
-        usdt.transferFrom(user, address(this), depositAmount);
-    }
-
-    /**
-     * @dev - A user withdraw specified-amount of assets (USDT) from the vault
-     */ 
-    function withdrawAssets(IERC20 usdt) public returns (bool) {
-        address user = msg.sender;
-
-        // [Todo]: Assign proper value (amount) into each variable below
-        uint principleAmount;
-        uint interestAmount;   // NOTE: Interest amount earned
-
-        uint withdrawalAmount = principleAmount + interestAmount;
-        usdt.transfer(user, withdrawalAmount);
-    }
-
-    /**
      * @dev - A issuer deposit margin (after a new vault is issued)
      *
      * @dev - The margin ratio and minimum margin are customizable
@@ -90,6 +66,40 @@ contract Vault is VaultStorages {
     }
 
 
+    ///------------------------------------
+    /// Window period
+    ///------------------------------------
+
+    /**
+     * @dev - A user participate in a vault during the window period (fund-raising period)
+     * @dev - A user deposit specified-amount of assets (USDT) into the vault
+     */ 
+    function depositAssets(IERC20 usdt, uint depositAmount) public returns (bool) {
+        //@dev - In advance, a caller (user) should approve their marginAmount of usdt.
+        address user = msg.sender;
+        usdt.transferFrom(user, address(this), depositAmount);
+    }
+
+    /**
+     * @dev - A user withdraw specified-amount of assets (USDT) from the vault
+     */ 
+    function withdrawAssets(IERC20 usdt) public returns (bool) {
+        address user = msg.sender;
+
+        // [Todo]: Assign proper value (amount) into each variable below
+        uint principleAmount;
+        uint interestAmount;   // NOTE: Interest amount earned
+
+        uint withdrawalAmount = principleAmount + interestAmount;
+        usdt.transfer(user, withdrawalAmount);
+    }
+
+
+
+    ///------------------------------------
+    /// Lockup period
+    ///------------------------------------
+
     /**
      * @dev - Fund locked in the Private Pool
      */ 
@@ -101,7 +111,7 @@ contract Vault is VaultStorages {
     /**
      * @dev - Start earning order-taking profits
      */ 
-    function startEarningOrderTakingProfits() public returns (bool) {
+    function earningOrderTakingProfits() public returns (bool) {
         // [Todo]: 
         address issuer = msg.sender;
     }
