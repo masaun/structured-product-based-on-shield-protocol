@@ -35,17 +35,17 @@ contract Vault is VaultStorages {
 
     /**
      * @dev - A user participate in a vault
-     * @dev - A user deposit some amount of tokens into the vault
+     * @dev - A user deposit specified-amount of assets (tokens) into the vault
      */ 
-    function depositIntoVault(uint depositAmount) public returns (bool) {
+    function depositAssets(uint depositAmount) public returns (bool) {
         // [Todo]: 
         address user = msg.sender;
     }
 
     /**
-     * @dev - A user withdraw specified-amount of tokens from the vault
+     * @dev - A user withdraw specified-amount of assets (tokens) from the vault
      */ 
-    function withdrawFromVault(uint withdrawalAmount) public returns (bool) {
+    function withdrawAssets(uint withdrawalAmount) public returns (bool) {
         // [Todo]: 
         address user = msg.sender;
     }
