@@ -1,5 +1,9 @@
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
+const { expect } = require("chai")
+const { ethers } = require("hardhat")
+
+//@dev - ethers.js related methods
+const { toWei, fromWei, getEventLog, getCurrentBlock, getCurrentTimestamp } = require('../ethersjs-helper/ethersjsHelper')
+
 
 describe("Unit test of the VaultFactory.sol", function () {
 
@@ -12,19 +16,6 @@ describe("Unit test of the VaultFactory.sol", function () {
 
     //@dev - Deployed-addresses
     let VAULT_FACTORY
-
-    //@dev - Method for retrieving an event log that is associated with "eventName" specified
-    async function getEventLog(txReceipt, eventName) {
-        for (let i = 0; i < txReceipt.events.length; i++) {
-            const eventLogs = txReceipt.events[i];
-            console.log(`eventLogs: ${ JSON.stringify(eventLogs, null, 2) }`)
-
-            if (eventLogs["event"] == eventName) {
-                const _args = eventLogs["args"]
-                return _args  // [NOTE] Return event log specified as array
-            }
-        }
-    }
 
     it("Get signatures of each accounts", async function () {
         [signerOfIssuer, signerOfUser] = await ethers.getSigners()
@@ -56,7 +47,7 @@ describe("Unit test of the VaultFactory.sol", function () {
         console.log(`"issuer" that is retrieved from event log of "VaultCreated": ${ ISSUER }`)
         console.log(`"vault address" that is retrieved from event log of "VaultCreated": ${ VAULT_CREATED }`)
 
-        expect(ISSUER).to.equal(signerOfIssuer.address);
+        expect(ISSUER).to.equal(signerOfIssuer.address)
     })
 
 })
