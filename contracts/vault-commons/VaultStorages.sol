@@ -9,14 +9,15 @@ import { VaultEnums } from "./VaultEnums.sol";
  */ 
 contract VaultStorages is VaultEnums {
 
-    mapping (address => VaultInfo) vaultInfos;  // [Key]: issuer's address -> VaultInfo struct
+    mapping (uint => VaultInfo) vaultInfos;  // [Key]: Vault ID -> VaultInfo struct
 
     struct VaultInfo {
+        address issuer;
         uint issuedAt;
         uint maturedAt;  // [NOTE]: Probably, this is same with "investmentPeriodAt"
 
         // 1) Customize the max capacity for each vault, with USDT as the default currency.
-        uint targetRaisdAmount;
+        uint targetRaisedAmount;
         uint maxCapacity;
 
         // 2) Customize the margin ratio and minimum margin
