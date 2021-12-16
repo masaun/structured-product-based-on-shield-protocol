@@ -1,5 +1,6 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.6.12;
+pragma experimental ABIEncoderV2;
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -13,8 +14,9 @@ contract Vault is VaultStorages {
 
     uint currentPerformance;   // [Todo]: Implement a logic to assign current performance into this variable
 
-    constructor(address _issuer, uint _issuedAt) public {
-        VaultInfo storage vaultInfo = vaultInfos[_issuer];
+    constructor(uint _vaultId, address _issuer, uint _issuedAt) public {
+        VaultInfo storage vaultInfo = vaultInfos[_vaultId];
+        vaultInfo.issuer = _issuer;
         vaultInfo.issuedAt = _issuedAt;
         vaultInfo.vaultStatus = VaultStatus.SUBSCRIPTION;
     }
@@ -23,6 +25,7 @@ contract Vault is VaultStorages {
      * @dev - Setting parameters of the vault. (Only issuer can call this method)
      */ 
     function settingVault(
+        uint _vaultId,
         uint _maturedAt,
         uint _targetRaisdAmount,
         uint _maxCapacity,
@@ -36,7 +39,7 @@ contract Vault is VaultStorages {
     ) public returns (bool) {
         address _issuer = msg.sender;
 
-        VaultInfo storage vaultInfo = vaultInfos[_issuer];
+        VaultInfo storage vaultInfo = vaultInfos[_vaultId];
         vaultInfo.maturedAt = _maturedAt;
         vaultInfo.targetRaisdAmount = _targetRaisdAmount;
         vaultInfo.maxCapacity = _maxCapacity;
@@ -55,10 +58,10 @@ contract Vault is VaultStorages {
      * @dev - The margin ratio and minimum margin are customizable
      *        => Note of margin: the target raised amount is $1M, and 30% as margin ratio, the issuer needs to deposit $300K while the actual fund-raising amount is $700K.
      */ 
-    function depositMargin(IERC20 usdt) public returns (bool) {
+    function depositMargin(uint vaultId, IERC20 usdt) public returns (bool) {
         address issuer = msg.sender;
         
-        VaultInfo memory vaultInfo = vaultInfos[issuer];
+        VaultInfo memory vaultInfo = vaultInfos[vaultId];
         uint _targetRaisdAmount = vaultInfo.targetRaisdAmount;
         uint _marginRatio = vaultInfo.marginRatio;
     
@@ -83,10 +86,10 @@ contract Vault is VaultStorages {
     /**
      * @dev - Change the vault status to "Window Open"
      */ 
-    function windowOpen() public returns (bool) {
+    function windowOpen(uint vaultId) public returns (bool) {
         address issuer = msg.sender;
 
-        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        VaultInfo storage vaultInfo = vaultInfos[vaultId];
         vaultInfo.vaultStatus = VaultStatus.WINDOW;
     }
 
@@ -94,9 +97,9 @@ contract Vault is VaultStorages {
      * @dev - A user participate in a vault during the window period (fund-raising period)
      * @dev - A user deposit specified-amount of assets (USDT) into the vault
      */ 
-    function depositAssets(address issuer, IERC20 usdt, uint depositAmount) public returns (bool) {
+    function depositAssets(uint vaultId, IERC20 usdt, uint depositAmount) public returns (bool) {
         //@dev - Check the vault status
-        VaultInfo memory vaultInfo = vaultInfos[issuer];
+        VaultInfo memory vaultInfo = vaultInfos[vaultId];
         VaultStatus _vaultStatus = vaultInfo.vaultStatus;
         require(_vaultStatus == VaultStatus.WINDOW, "Vault status should be 'Window'");
 
@@ -108,9 +111,9 @@ contract Vault is VaultStorages {
     /**
      * @dev - A user withdraw specified-amount of assets (USDT) from the vault
      */ 
-    function withdrawAssets(address issuer, IERC20 usdt) public returns (bool) {
+    function withdrawAssets(uint vaultId, IERC20 usdt) public returns (bool) {
         //@dev - Check the vault status
-        VaultInfo memory vaultInfo = vaultInfos[issuer];
+        VaultInfo memory vaultInfo = vaultInfos[vaultId];
         VaultStatus _vaultStatus = vaultInfo.vaultStatus;
         require(_vaultStatus == VaultStatus.WINDOW, "Vault status should be 'Window'");
 
@@ -143,10 +146,10 @@ contract Vault is VaultStorages {
     /**
      * @dev - Fund locked in the Private Pool. (Change the vault status to "Lockup fund")
      */ 
-    function fundlocked() public returns (bool) {
+    function fundlocked(uint vaultId) public returns (bool) {
         address issuer = msg.sender;
 
-        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        VaultInfo storage vaultInfo = vaultInfos[vaultId];
         vaultInfo.vaultStatus = VaultStatus.LOCKUP;
     }
 
@@ -158,9 +161,9 @@ contract Vault is VaultStorages {
     /**
      * @dev - Vault is matured (due date)
      */ 
-    function vaultIsMatured() public returns (bool) {
+    function vaultIsMatured(uint vaultId) public returns (bool) {
         address issuer = msg.sender;
-        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        VaultInfo storage vaultInfo = vaultInfos[vaultId];
         vaultInfo.vaultStatus = VaultStatus.MATURED;
     }
 
@@ -168,11 +171,25 @@ contract Vault is VaultStorages {
     /**
      * @dev - Vault is at ADL
      */ 
-    function vaultIsADL() public returns (bool) {
+    function vaultIsADL(uint vaultId) public returns (bool) {
         address issuer = msg.sender;
-        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        VaultInfo storage vaultInfo = vaultInfos[vaultId];
         vaultInfo.vaultStatus = VaultStatus.ADL;
     }
+
+
+    ///------------------------------------
+    /// Check the vault information
+    ///------------------------------------
+
+    /**
+     * @dev - Get stored-data of vault from the VaultInfo struct
+     */ 
+    function getVaultInfo(uint vaultId) public view returns (VaultInfo memory _vaultInfo) {
+        VaultInfo memory vaultInfo = vaultInfos[vaultId];
+        return vaultInfo;
+    }
+
 
 
     ///------------------------------------

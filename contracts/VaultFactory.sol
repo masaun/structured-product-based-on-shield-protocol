@@ -11,6 +11,8 @@ import { VaultEvents } from "./vault-commons/VaultEvents.sol";
  */ 
 contract VaultFactory is VaultEvents {
 
+    uint currentVaultId;  // [NOTE]: Vault ID is counted from "0"
+
     address[] public vaultAddresses;
 
     constructor() public {
@@ -21,13 +23,17 @@ contract VaultFactory is VaultEvents {
      * @dev - A issuer issue a new vault
      */ 
     function issueVault() public returns (bool) {
+        uint newVaultId = currentVaultId;
         address issuer = msg.sender;
         uint issuedAt = block.timestamp;
 
         //@dev - Issue a new vault
-        Vault vault = new Vault(issuer, issuedAt);
+        Vault vault = new Vault(newVaultId, issuer, issuedAt);
         address VAULT = address(vault);
         vaultAddresses.push(VAULT);
+
+        //@dev - Update current Vault ID
+        currentVaultId++;
 
         emit VaultCreated(issuer, VAULT);
     }
