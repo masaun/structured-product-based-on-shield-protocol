@@ -19,37 +19,12 @@ contract VaultFactory {
     /**
      * @dev - A issuer issue a new vault
      */ 
-    function issueVault(
-        uint maturedAt,
-        uint targetRaisdAmount,
-        uint maxCapacity,
-        uint marginRatio,
-        uint minimumRatio,
-        uint subscriptionPeriodAt,
-        uint investmentPeriodAt,
-        uint lockupPeriodAt,
-        uint windowPeriodAt,
-        VaultStorages.VaultType vaultType,     // [NOTE]: Value referenced from the VaultType enum is assigned  
-        VaultStorages.VaultStatus vaultStatus  // [NOTE]: Value referenced from the VaultStatus enum
-    ) public returns (bool) {
+    function issueVault() public returns (bool) {
         address issuer = msg.sender;
         uint issuedAt = block.timestamp;
 
         //@dev - Issue a new vault
-        Vault vault = new Vault(issuer, 
-                                issuedAt,
-                                maturedAt,
-                                targetRaisdAmount,
-                                maxCapacity,
-                                marginRatio,
-                                minimumRatio,
-                                subscriptionPeriodAt,
-                                investmentPeriodAt,
-                                lockupPeriodAt,
-                                windowPeriodAt,
-                                vaultType,
-                                vaultStatus);
-
+        Vault vault = new Vault(issuer, issuedAt);
         address VAULT = address(vault);
         vaultAddresses.push(VAULT);
     }

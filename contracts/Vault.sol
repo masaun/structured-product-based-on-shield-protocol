@@ -11,9 +11,16 @@ import { VaultStorages } from "./vault-commons/VaultStorages.sol";
  */ 
 contract Vault is VaultStorages {
 
-    constructor(
-        address _issuer,
-        uint _issuedAt,
+    constructor(address _issuer, uint _issuedAt) public {
+        VaultInfo storage vaultInfo = vaultInfos[_issuer];
+        vaultInfo.issuedAt = _issuedAt;
+        vaultInfo.vaultStatus = VaultStatus.SUBSCRIPTION;
+    }
+
+    /**
+     * @dev - Setting parameters of the vault
+     */ 
+    function settingVault(
         uint _maturedAt,
         uint _targetRaisdAmount,
         uint _maxCapacity,
@@ -23,11 +30,11 @@ contract Vault is VaultStorages {
         uint _investmentPeriodAt,
         uint _lockupPeriodAt,
         uint _windowPeriodAt,
-        VaultType _vaultType,
-        VaultStatus _vaultStatus
-    ) public {
+        VaultType _vaultType
+    ) public returns (bool) {
+        address _issuer = msg.sender;
+
         VaultInfo storage vaultInfo = vaultInfos[_issuer];
-        vaultInfo.issuedAt = _issuedAt;
         vaultInfo.maturedAt = _maturedAt;
         vaultInfo.targetRaisdAmount = _targetRaisdAmount;
         vaultInfo.maxCapacity = _maxCapacity;
@@ -38,7 +45,6 @@ contract Vault is VaultStorages {
         vaultInfo.lockupPeriodAt = _lockupPeriodAt;
         vaultInfo.windowPeriodAt = _windowPeriodAt;
         vaultInfo.vaultType = _vaultType;
-        vaultInfo.vaultStatus = _vaultStatus;
     }
 
     /**
