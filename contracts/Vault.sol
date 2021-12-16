@@ -18,7 +18,7 @@ contract Vault is VaultStorages {
     }
 
     /**
-     * @dev - Setting parameters of the vault
+     * @dev - Setting parameters of the vault. (Only issuer can call this method)
      */ 
     function settingVault(
         uint _maturedAt,
@@ -79,6 +79,16 @@ contract Vault is VaultStorages {
     ///------------------------------------
 
     /**
+     * @dev - Change the vault status to "Window Open"
+     */ 
+    function windowOpen() public returns (bool) {
+        address issuer = msg.sender;
+
+        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        vaultInfo.vaultStatus = VaultStatus.WINDOW;
+    }
+
+    /**
      * @dev - A user participate in a vault during the window period (fund-raising period)
      * @dev - A user deposit specified-amount of assets (USDT) into the vault
      */ 
@@ -109,11 +119,13 @@ contract Vault is VaultStorages {
     ///------------------------------------
 
     /**
-     * @dev - Fund locked in the Private Pool
+     * @dev - Fund locked in the Private Pool. (Change the vault status to "Lockup fund")
      */ 
     function fundlocked() public returns (bool) {
-        // [Todo]: 
         address issuer = msg.sender;
+
+        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        vaultInfo.vaultStatus = VaultStatus.LOCKUP;
     }
 
     /**

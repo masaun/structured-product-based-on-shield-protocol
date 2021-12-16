@@ -24,6 +24,6 @@ contract VaultEnums {
     /**
      * @dev - Status of the vaule. (Subscription period / Window period / Locked period / Due)
      */ 
-    enum VaultStatus { SUBSCRIPTION, WINDOW, LOCKED, DUE }  // [NOTE]: "Due" is same mean with "matured"
+    enum VaultStatus { SUBSCRIPTION, WINDOW, LOCKUP, DUE }  // [NOTE]: "Due" is same mean with "matured"
 
 }
