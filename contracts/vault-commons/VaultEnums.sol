@@ -21,4 +21,9 @@ contract VaultEnums {
         NON_CAPITAL_PROTECTED_AT_MATURITY_WITHOUT_MAX_LOSS
     }
 
+    /**
+     * @dev - Status of the vaule. (Subscription period / Window period / Locked period / Due)
+     */ 
+    enum VaultStatus { SUBSCRIPTION, WINDOW, LOCKUP, DUE }  // [NOTE]: "Due" is same mean with "matured"
+
 }

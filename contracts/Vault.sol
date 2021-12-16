@@ -11,9 +11,16 @@ import { VaultStorages } from "./vault-commons/VaultStorages.sol";
  */ 
 contract Vault is VaultStorages {
 
-    constructor(
-        address _issuer,
-        uint _issuedAt,
+    constructor(address _issuer, uint _issuedAt) public {
+        VaultInfo storage vaultInfo = vaultInfos[_issuer];
+        vaultInfo.issuedAt = _issuedAt;
+        vaultInfo.vaultStatus = VaultStatus.SUBSCRIPTION;
+    }
+
+    /**
+     * @dev - Setting parameters of the vault. (Only issuer can call this method)
+     */ 
+    function settingVault(
         uint _maturedAt,
         uint _targetRaisdAmount,
         uint _maxCapacity,
@@ -24,9 +31,10 @@ contract Vault is VaultStorages {
         uint _lockupPeriodAt,
         uint _windowPeriodAt,
         VaultType _vaultType
-    ) public {
+    ) public returns (bool) {
+        address _issuer = msg.sender;
+
         VaultInfo storage vaultInfo = vaultInfos[_issuer];
-        vaultInfo.issuedAt = _issuedAt;
         vaultInfo.maturedAt = _maturedAt;
         vaultInfo.targetRaisdAmount = _targetRaisdAmount;
         vaultInfo.maxCapacity = _maxCapacity;
@@ -71,10 +79,25 @@ contract Vault is VaultStorages {
     ///------------------------------------
 
     /**
+     * @dev - Change the vault status to "Window Open"
+     */ 
+    function windowOpen() public returns (bool) {
+        address issuer = msg.sender;
+
+        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        vaultInfo.vaultStatus = VaultStatus.WINDOW;
+    }
+
+    /**
      * @dev - A user participate in a vault during the window period (fund-raising period)
      * @dev - A user deposit specified-amount of assets (USDT) into the vault
      */ 
-    function depositAssets(IERC20 usdt, uint depositAmount) public returns (bool) {
+    function depositAssets(address issuer, IERC20 usdt, uint depositAmount) public returns (bool) {
+        //@dev - Check the vault status
+        VaultInfo memory vaultInfo = vaultInfos[issuer];
+        VaultStatus _vaultStatus = vaultInfo.vaultStatus;
+        require(_vaultStatus == VaultStatus.WINDOW, "Vault status should be 'Window'");
+
         //@dev - In advance, a caller (user) should approve their marginAmount of usdt.
         address user = msg.sender;
         usdt.transferFrom(user, address(this), depositAmount);
@@ -83,7 +106,12 @@ contract Vault is VaultStorages {
     /**
      * @dev - A user withdraw specified-amount of assets (USDT) from the vault
      */ 
-    function withdrawAssets(IERC20 usdt) public returns (bool) {
+    function withdrawAssets(address issuer, IERC20 usdt) public returns (bool) {
+        //@dev - Check the vault status
+        VaultInfo memory vaultInfo = vaultInfos[issuer];
+        VaultStatus _vaultStatus = vaultInfo.vaultStatus;
+        require(_vaultStatus == VaultStatus.WINDOW, "Vault status should be 'Window'");
+
         address user = msg.sender;
 
         // [Todo]: Assign proper value (amount) into each variable below
@@ -101,27 +129,35 @@ contract Vault is VaultStorages {
     ///------------------------------------
 
     /**
-     * @dev - Fund locked in the Private Pool
+     * @dev - Fund locked in the Private Pool. (Change the vault status to "Lockup fund")
      */ 
     function fundlocked() public returns (bool) {
-        // [Todo]: 
         address issuer = msg.sender;
+
+        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        vaultInfo.vaultStatus = VaultStatus.LOCKUP;
     }
 
     /**
-     * @dev - Start earning order-taking profits
+     * @dev - Earn order-taking profits (Harvest profits)
      */ 
     function earningOrderTakingProfits() public returns (bool) {
         // [Todo]: 
         address issuer = msg.sender;
     }
 
+
+    ///------------------------------------
+    /// Due (This vault is matured)
+    ///------------------------------------
+
     /**
      * @dev - Vault due/ADL
      */ 
     function vaultDueADL() public returns (bool) {
-        // [Todo]: 
         address issuer = msg.sender;
+        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        vaultInfo.vaultStatus = VaultStatus.DUE;
     }
 
 }
