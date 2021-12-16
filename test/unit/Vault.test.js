@@ -57,4 +57,37 @@ describe("Unit test of the Vault.sol", function () {
         console.log(`Vault No.1:  ${ VAULT_1  }`)
     })
 
+
+    ///--------------------------------------------------------
+    /// Testing of the Vault.sol related methods from below
+    ///--------------------------------------------------------
+
+    it("settingVault() - A issuer set parameters of the vault", async function () {
+        // [Todo]: 
+    })
+
+    it("depositMargin() - A issuer deposit margin", async function () {
+        // [Todo]: 
+    })
+
+    it("windowOpen() - Window period is opened", async function () {
+        // [Todo]: 
+    })
+
+    it("depositAssets() - A user deposit assets (USDT)", async function () {
+        // [Todo]: 
+    })
+
+    it("fundlocked() - Lockup period is started and funds are locked", async function () {
+        // [Todo]: 
+    })
+
+    it("withdrawAssets() - A user withdraw their principle and profits", async function () {
+        // [Todo]: 
+    })
+
+    it("vaultIsMatured() - Investment period of the vault is expired (matured)", async function () {
+        // [Todo]: 
+    })
+
 })

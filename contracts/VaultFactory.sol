@@ -1,5 +1,6 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.6.12;
+pragma experimental ABIEncoderV2;
 
 import { Vault } from "./Vault.sol";
 import { VaultStorages } from "./vault-commons/VaultStorages.sol";
