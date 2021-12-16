@@ -11,6 +11,8 @@ import { VaultStorages } from "./vault-commons/VaultStorages.sol";
  */ 
 contract Vault is VaultStorages {
 
+    uint currentPerformance;   // [Todo]: Implement a logic to assign current performance into this variable
+
     constructor(address _issuer, uint _issuedAt) public {
         VaultInfo storage vaultInfo = vaultInfos[_issuer];
         vaultInfo.issuedAt = _issuedAt;
@@ -116,12 +118,22 @@ contract Vault is VaultStorages {
 
         // [Todo]: Assign proper value (amount) into each variable below
         uint principleAmount;
-        uint interestAmount;   // NOTE: Interest amount earned
+        uint profitsEarnedAmount = _harvestOrderTakingProfitsEarned();  // NOTE: Interest amount earned
 
-        uint withdrawalAmount = principleAmount + interestAmount;
+        uint withdrawalAmount = principleAmount + profitsEarnedAmount;
         usdt.transfer(user, withdrawalAmount);
     }
 
+    /**
+     * @dev - Harvest order-taking profits earned
+     */ 
+    function _harvestOrderTakingProfitsEarned() internal returns (uint _profitsEarned) {
+        address issuer = msg.sender;
+
+        // [Todo]: Implement a logic for calculating profits earned.
+        uint profitsEarned;
+        return profitsEarned;
+    }
 
 
     ///------------------------------------
@@ -138,26 +150,40 @@ contract Vault is VaultStorages {
         vaultInfo.vaultStatus = VaultStatus.LOCKUP;
     }
 
+
+    ///------------------------------------
+    /// Matured (This vault is matured)
+    ///------------------------------------
+
     /**
-     * @dev - Earn order-taking profits (Harvest profits)
+     * @dev - Vault is matured (due date)
      */ 
-    function earningOrderTakingProfits() public returns (bool) {
-        // [Todo]: 
+    function vaultIsMatured() public returns (bool) {
         address issuer = msg.sender;
+        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        vaultInfo.vaultStatus = VaultStatus.MATURED;
+    }
+
+
+    /**
+     * @dev - Vault is at ADL
+     */ 
+    function vaultIsADL() public returns (bool) {
+        address issuer = msg.sender;
+        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        vaultInfo.vaultStatus = VaultStatus.ADL;
     }
 
 
     ///------------------------------------
-    /// Due (This vault is matured)
+    /// Check the stats of this vault
     ///------------------------------------
 
     /**
-     * @dev - Vault due/ADL
+     * @dev - Current performance (APY) of this vault
      */ 
-    function vaultDueADL() public returns (bool) {
-        address issuer = msg.sender;
-        VaultInfo storage vaultInfo = vaultInfos[issuer];
-        vaultInfo.vaultStatus = VaultStatus.DUE;
+    function getCurrentPerformance() public view returns (uint _currentPerformance) {
+        return currentPerformance;
     }
 
 }
