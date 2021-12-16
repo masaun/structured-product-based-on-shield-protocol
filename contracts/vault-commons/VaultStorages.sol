@@ -25,6 +25,7 @@ contract VaultStorages is VaultEnums {
 
         // 3) Set the duration of each phase, such as subscription, lockup, window, and investment period.
         uint subscriptionPeriodAt;
+        uint investmentPeriodAt;
         uint lockupPeriodAt;  // [NOTE]: Every time that a lock up period is updated, this value assigned is also updated
         uint windowPeriodAt;  // [NOTE]: Every time that a window period is updated, this value assigned is also updated
 
