@@ -23,7 +23,8 @@ contract Vault is VaultStorages {
         uint _investmentPeriodAt,
         uint _lockupPeriodAt,
         uint _windowPeriodAt,
-        VaultType _vaultType
+        VaultType _vaultType,
+        VaultStatus _vaultStatus
     ) public {
         VaultInfo storage vaultInfo = vaultInfos[_issuer];
         vaultInfo.issuedAt = _issuedAt;
@@ -37,6 +38,7 @@ contract Vault is VaultStorages {
         vaultInfo.lockupPeriodAt = _lockupPeriodAt;
         vaultInfo.windowPeriodAt = _windowPeriodAt;
         vaultInfo.vaultType = _vaultType;
+        vaultInfo.vaultStatus = _vaultStatus;
     }
 
     /**
@@ -109,7 +111,7 @@ contract Vault is VaultStorages {
     }
 
     /**
-     * @dev - Start earning order-taking profits
+     * @dev - Earn order-taking profits (Harvest profits)
      */ 
     function earningOrderTakingProfits() public returns (bool) {
         // [Todo]: 

@@ -29,7 +29,8 @@ contract VaultFactory {
         uint investmentPeriodAt,
         uint lockupPeriodAt,
         uint windowPeriodAt,
-        VaultStorages.VaultType vaultType  // [NOTE]: Value referenced from the VaultType enum is assigned  
+        VaultStorages.VaultType vaultType,     // [NOTE]: Value referenced from the VaultType enum is assigned  
+        VaultStorages.VaultStatus vaultStatus  // [NOTE]: Value referenced from the VaultStatus enum
     ) public returns (bool) {
         address issuer = msg.sender;
         uint issuedAt = block.timestamp;
@@ -46,7 +47,9 @@ contract VaultFactory {
                                 investmentPeriodAt,
                                 lockupPeriodAt,
                                 windowPeriodAt,
-                                vaultType);
+                                vaultType,
+                                vaultStatus);
+
         address VAULT = address(vault);
         vaultAddresses.push(VAULT);
     }

@@ -13,7 +13,7 @@ contract VaultStorages is VaultEnums {
 
     struct VaultInfo {
         uint issuedAt;
-        uint maturedAt;
+        uint maturedAt;  // [NOTE]: Probably, this is same with "investmentPeriodAt"
 
         // 1) Customize the max capacity for each vault, with USDT as the default currency.
         uint targetRaisdAmount;
@@ -25,12 +25,15 @@ contract VaultStorages is VaultEnums {
 
         // 3) Set the duration of each phase, such as subscription, lockup, window, and investment period.
         uint subscriptionPeriodAt;
-        uint investmentPeriodAt;
+        uint investmentPeriodAt;    // [NOTE]: Probably, this is same with "maturedAt"
         uint lockupPeriodAt;  // [NOTE]: Every time that a lock up period is updated, this value assigned is also updated
         uint windowPeriodAt;  // [NOTE]: Every time that a window period is updated, this value assigned is also updated
 
         // 5) Vaults type:
-        VaultType vaultType;  // [NOTE]: Assign value from the VaultType enum
+        VaultType vaultType;     // [NOTE]: Assign value from the VaultType enum
+
+        //@dev - This is whether the vault is locked (locked period) or not
+        VaultStatus vaultStatus;  // [NOTE]: Assign value from the VaultStatus enum
     }
 
 }
