@@ -22,9 +22,15 @@ npm run deploy-bsc_testnet:StructuredProduct
 <br>
 
 ## 【Test】
-- Unit test
-  - Vault.sol
-  - VaultFactory.sol
+- Unit test: `Vault.sol`
+```
+npm run test:Vault
+```
+
+- Unit test: `VaultFactory.sol`
+```
+npm run test:VaultFactory
+```
 
 <br>
 
