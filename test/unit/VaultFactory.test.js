@@ -3,9 +3,9 @@ const { ethers } = require("hardhat");
 
 describe("Unit test of the VaultFactory.sol", function () {
 
-    //@dev - Sign of each accounts
-    let issuerSign
-    let userSign
+    //@dev - Signer of each accounts
+    let signerOfIssuer
+    let signerOfUser
 
     //@dev - Deployed-contract instance
     let vaultFactory
@@ -14,9 +14,9 @@ describe("Unit test of the VaultFactory.sol", function () {
     let VAULT_FACTORY
 
     it("Get signatures of each accounts", async function () {
-        [issuerSign, userSign] = await ethers.getSigners()
-        console.log(`Signature of a issuer: ${ JSON.stringify(issuerSign) }`)
-        console.log(`Signature of a user: ${ JSON.stringify(userSign) }`)
+        [signerOfIssuer, signerOfUser] = await ethers.getSigners()
+        console.log(`Signer of a issuer: ${ JSON.stringify(signerOfIssuer) }`)
+        console.log(`Signer of a user: ${ JSON.stringify(signerOfUser) }`)
     })
 
     it("Deploy the VaultFactory.sol", async function () {
@@ -29,7 +29,7 @@ describe("Unit test of the VaultFactory.sol", function () {
     })
 
     it("Should issue a new vault", async function () {
-        const transaction = await vaultFactory.connect(issuerSign).issueVault()
+        const transaction = await vaultFactory.connect(signerOfIssuer).issueVault()
         const txReceipt = transaction.wait()
     })
 
