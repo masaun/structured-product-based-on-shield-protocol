@@ -150,16 +150,26 @@ contract Vault is VaultStorages {
 
 
     ///------------------------------------
-    /// Due (This vault is matured)
+    /// Matured (This vault is matured)
     ///------------------------------------
 
     /**
-     * @dev - Vault due/ADL
+     * @dev - Vault is matured (due date)
      */ 
-    function vaultDueADL() public returns (bool) {
+    function vaultIsMatured() public returns (bool) {
         address issuer = msg.sender;
         VaultInfo storage vaultInfo = vaultInfos[issuer];
-        vaultInfo.vaultStatus = VaultStatus.DUE;
+        vaultInfo.vaultStatus = VaultStatus.MATURED;
+    }
+
+
+    /**
+     * @dev - Vault is at ADL
+     */ 
+    function vaultIsADL() public returns (bool) {
+        address issuer = msg.sender;
+        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        vaultInfo.vaultStatus = VaultStatus.ADL;
     }
 
 }
