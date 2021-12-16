@@ -116,12 +116,22 @@ contract Vault is VaultStorages {
 
         // [Todo]: Assign proper value (amount) into each variable below
         uint principleAmount;
-        uint interestAmount;   // NOTE: Interest amount earned
+        uint profitsEarnedAmount = _harvestOrderTakingProfitsEarned();  // NOTE: Interest amount earned
 
-        uint withdrawalAmount = principleAmount + interestAmount;
+        uint withdrawalAmount = principleAmount + profitsEarnedAmount;
         usdt.transfer(user, withdrawalAmount);
     }
 
+    /**
+     * @dev - Harvest order-taking profits earned
+     */ 
+    function _harvestOrderTakingProfitsEarned() internal returns (uint _profitsEarned) {
+        address issuer = msg.sender;
+
+        // [Todo]: Implement a logic for calculating profits earned.
+        uint profitsEarned;
+        return profitsEarned;
+    }
 
 
     ///------------------------------------
@@ -136,14 +146,6 @@ contract Vault is VaultStorages {
 
         VaultInfo storage vaultInfo = vaultInfos[issuer];
         vaultInfo.vaultStatus = VaultStatus.LOCKUP;
-    }
-
-    /**
-     * @dev - Earn order-taking profits (Harvest profits)
-     */ 
-    function earningOrderTakingProfits() public returns (bool) {
-        // [Todo]: 
-        address issuer = msg.sender;
     }
 
 
