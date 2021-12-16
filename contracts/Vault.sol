@@ -5,12 +5,13 @@ pragma experimental ABIEncoderV2;
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import { VaultStorages } from "./vault-commons/VaultStorages.sol";
+import { VaultEvents } from "./vault-commons/VaultEvents.sol";
 
 
 /**
  * @dev - This is the smart contract that deal with a Vault
  */ 
-contract Vault is VaultStorages {
+contract Vault is VaultStorages, VaultEvents {
 
     uint currentPerformance;   // APY(%) <- [Todo]: Implement a logic to assign current performance into this variable
 
@@ -41,7 +42,7 @@ contract Vault is VaultStorages {
 
         VaultInfo storage vaultInfo = vaultInfos[_vaultId];
         vaultInfo.maturedAt = _maturedAt;
-        vaultInfo.targetRaisdAmount = _targetRaisdAmount;
+        vaultInfo.targetRaisedAmount = _targetRaisdAmount;
         vaultInfo.maxCapacity = _maxCapacity;
         vaultInfo.marginRatio = _marginRatio;
         vaultInfo.minimumRatio = _minimumRatio;
@@ -50,6 +51,19 @@ contract Vault is VaultStorages {
         vaultInfo.lockupPeriodAt = _lockupPeriodAt;
         vaultInfo.windowPeriodAt = _windowPeriodAt;
         vaultInfo.vaultType = _vaultType;
+
+        emit VaultSet(_issuer,
+                      _vaultId,
+                      _maturedAt,
+                      _targetRaisdAmount,
+                      _maxCapacity,
+                      _marginRatio,
+                      _minimumRatio,
+                      _subscriptionPeriodAt,
+                      _investmentPeriodAt,
+                      _lockupPeriodAt,
+                      _windowPeriodAt,
+                      _vaultType);
     }
 
     /**
@@ -62,7 +76,7 @@ contract Vault is VaultStorages {
         address issuer = msg.sender;
         
         VaultInfo memory vaultInfo = vaultInfos[vaultId];
-        uint _targetRaisdAmount = vaultInfo.targetRaisdAmount;
+        uint _targetRaisdAmount = vaultInfo.targetRaisedAmount;
         uint _marginRatio = vaultInfo.marginRatio;
     
         //@dev - A issuer deposit the margin amount based on the margin ratio
@@ -72,9 +86,9 @@ contract Vault is VaultStorages {
         uint fundRaisingAmount = _targetRaisdAmount * (100 - _marginRatio);
     }
 
-    function _depositMargin(address issuer, IERC20 usdt, uint targetRaisdAmount, uint marginRatio) internal returns (bool) {
+    function _depositMargin(address issuer, IERC20 usdt, uint targetRaisedAmount, uint marginRatio) internal returns (bool) {
         //@dev - In advance, a caller (issuer) should approve their marginAmount of usdt.
-        uint marginAmount = targetRaisdAmount * marginRatio;
+        uint marginAmount = targetRaisedAmount * marginRatio;
         usdt.transferFrom(issuer, address(this), marginAmount);
     }
 

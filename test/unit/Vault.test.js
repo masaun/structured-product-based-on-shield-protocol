@@ -2,7 +2,7 @@ const { expect } = require("chai")
 const { ethers } = require("hardhat")
 
 //@dev - ethers.js related methods
-const { toWei, fromWei, getEventLog, getCurrentBlock, getCurrentTimestamp } = require('../ethersjs-helper/ethersjsHelper')
+const { convertHexToString, convertStringToHex, toWei, fromWei, getEventLog, getCurrentBlock, getCurrentTimestamp } = require('../ethersjs-helper/ethersjsHelper')
 
 
 describe("Unit test of the Vault.sol", function () {
@@ -57,6 +57,7 @@ describe("Unit test of the Vault.sol", function () {
         console.log(`"issuer" that is retrieved from event log of "VaultCreated": ${ ISSUER }`)
         console.log(`"vault address" that is retrieved from event log of "VaultCreated": ${ VAULT_CREATED }`)
 
+        //@dev - Check
         expect(ISSUER).to.equal(signerOfIssuer.address)
 
         //@dev - Assign a new vault created into variable of Vault No.1
@@ -78,7 +79,7 @@ describe("Unit test of the Vault.sol", function () {
 
         const vaultId = 0
         const maturedAt = currentUnixTimestamp + (A_DAY * 10)            // 10 days
-        const targetRaisdAmount = toWei('1000000')                       // 1000000 USDT
+        const targetRaisedAmount = toWei('1000000')                       // 1000000 USDT
         const maxCapacity = toWei('1500000')                             // 1500000 USDT
         const marginRatio = String(3 * 1e17)                             // 30 % 
         const minimumRatio = String(1 * 1e17)                            // 10 % 
@@ -91,7 +92,7 @@ describe("Unit test of the Vault.sol", function () {
         //@dev - Set parameters of the vault
         let transaction = await vault1.settingVault(vaultId,
                                                     maturedAt,
-                                                    targetRaisdAmount,
+                                                    targetRaisedAmount,
                                                     maxCapacity,
                                                     marginRatio,
                                                     minimumRatio,
@@ -101,6 +102,50 @@ describe("Unit test of the Vault.sol", function () {
                                                     windowPeriodAt,
                                                     vaultType)
         let txReceipt = await transaction.wait()
+
+        //@dev - Check event log of "VaultSet"
+        const EVENT_NAME = "VaultSet"
+        const eventLog = await getEventLog(txReceipt, EVENT_NAME)
+        console.log(`event log of "VaultSet": ${ eventLog }`)
+
+        const ISSUER = eventLog[0]
+        const VAULT_ID = eventLog[1]
+        const MATURED_AT = eventLog[2]
+        const TARGET_RAISED_AMOUNT = eventLog[3]
+        const MAX_CAPACITY = eventLog[4]
+        const MARGIN_RATIO = eventLog[5]
+        const MINIMUM_RATIO = eventLog[6]
+        const SUBSCRIPTION_PERIOD_AT = eventLog[7]
+        const INVESTMENT_PERIOD_AT = eventLog[8]
+        const LOCKUP_PERIOD_AT = eventLog[9]
+        const WINDOW_PERIOD_AT = eventLog[10]
+        const VAULT_TYPE = eventLog[11]
+        console.log(`"issuer" that is retrieved from event log of "VaultSet": ${ ISSUER }`)
+        console.log(`"vaultId" that is retrieved from event log of "VaultSet": ${ VAULT_ID }`)
+        console.log(`"maturedAt" that is retrieved from event log of "VaultSet": ${ MATURED_AT }`)
+        console.log(`"targetRaisedAmount" that is retrieved from event log of "VaultSet": ${ TARGET_RAISED_AMOUNT }`)
+        console.log(`"maxCapacity" that is retrieved from event log of "VaultSet": ${ MAX_CAPACITY }`)
+        console.log(`"marginRatio" that is retrieved from event log of "VaultSet": ${ MARGIN_RATIO }`)
+        console.log(`"minimumRatio" that is retrieved from event log of "VaultSet": ${ MINIMUM_RATIO }`)
+        console.log(`"subscriptionPeriodAt" that is retrieved from event log of "VaultSet": ${ SUBSCRIPTION_PERIOD_AT }`)
+        console.log(`"investmentPeriodAt" that is retrieved from event log of "VaultSet": ${ INVESTMENT_PERIOD_AT }`)
+        console.log(`"lockupPeriodAt" that is retrieved from event log of "VaultSet": ${ LOCKUP_PERIOD_AT }`)
+        console.log(`"windowPeriodAt" that is retrieved from event log of "VaultSet": ${ WINDOW_PERIOD_AT }`)
+        console.log(`"vaultType" that is retrieved from event log of "VaultSet": ${ VAULT_TYPE }`)
+
+        //@dev - Check
+        expect(ISSUER).to.equal(signerOfIssuer.address)
+        expect(VAULT_ID).to.equal(vaultId)
+        expect(MATURED_AT).to.equal(maturedAt)
+        expect(TARGET_RAISED_AMOUNT).to.equal(targetRaisedAmount)
+        expect(MAX_CAPACITY).to.equal(maxCapacity)
+        expect(MARGIN_RATIO).to.equal(marginRatio)
+        expect(MINIMUM_RATIO).to.equal(minimumRatio)
+        expect(SUBSCRIPTION_PERIOD_AT).to.equal(subscriptionPeriodAt)
+        expect(INVESTMENT_PERIOD_AT).to.equal(investmentPeriodAt)
+        expect(LOCKUP_PERIOD_AT).to.equal(lockupPeriodAt)
+        expect(WINDOW_PERIOD_AT).to.equal(windowPeriodAt)
+        expect(VAULT_TYPE).to.equal(vaultType)
     })
 
     it("depositMargin() - A issuer deposit margin", async function () {
