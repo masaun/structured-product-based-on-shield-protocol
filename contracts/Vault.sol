@@ -12,7 +12,7 @@ import { VaultStorages } from "./vault-commons/VaultStorages.sol";
  */ 
 contract Vault is VaultStorages {
 
-    uint currentPerformance;   // [Todo]: Implement a logic to assign current performance into this variable
+    uint currentPerformance;   // APY(%) <- [Todo]: Implement a logic to assign current performance into this variable
 
     constructor(uint _vaultId, address _issuer, uint _issuedAt) public {
         VaultInfo storage vaultInfo = vaultInfos[_vaultId];

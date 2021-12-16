@@ -13,12 +13,19 @@ describe("Unit test of the Vault.sol", function () {
 
     //@dev - Deployed-contract instance
     let vaultFactory
+    let vault1
+    let vault2
+    let vault3
 
     //@dev - Deployed-addresses
     let VAULT_FACTORY
     let VAULT_1
     let VAULT_2
     let VAULT_3
+
+    //@dev - Time
+    const A_HOUR = 60 * 60
+    const A_DAY = 60 * 60 * 24
 
     it("Get signatures of each accounts", async function () {
         [signerOfIssuer, signerOfUser] = await ethers.getSigners()
@@ -55,6 +62,9 @@ describe("Unit test of the Vault.sol", function () {
         //@dev - Assign a new vault created into variable of Vault No.1
         VAULT_1 = VAULT_CREATED
         console.log(`Vault No.1:  ${ VAULT_1  }`)
+
+        //@dev - Create the instance of the vault No.1
+        vault1 = await ethers.getContractAt("Vault", VAULT_1)
     })
 
 
@@ -63,7 +73,34 @@ describe("Unit test of the Vault.sol", function () {
     ///--------------------------------------------------------
 
     it("settingVault() - A issuer set parameters of the vault", async function () {
-        // [Todo]: 
+        const currentUnixTimestamp = Math.floor(new Date / 1000)
+        console.log(`current Unix timestamp: ${ currentUnixTimestamp }`)
+
+        const vaultId = 0
+        const maturedAt = currentUnixTimestamp + (A_DAY * 10)            // 10 days
+        const targetRaisdAmount = toWei('1000000')                       // 1000000 USDT
+        const maxCapacity = toWei('1500000')                             // 1500000 USDT
+        const marginRatio = String(3 * 1e17)                             // 30 % 
+        const minimumRatio = String(1 * 1e17)                            // 10 % 
+        const subscriptionPeriodAt = currentUnixTimestamp + (A_DAY * 2)  // 2 days
+        const investmentPeriodAt = currentUnixTimestamp + (A_DAY * 10)   // 10 days
+        const lockupPeriodAt = currentUnixTimestamp + (A_DAY * 3)        // 3 days
+        const windowPeriodAt = currentUnixTimestamp + (A_DAY * 1)        // 1 days
+        const vaultType = 0  // [NOTE]: This (vaultType = 0) mean that "100% capital protected at maturity with an interest guarantee, customize the margin and APY"
+
+        //@dev - Set parameters of the vault
+        let transaction = await vault1.settingVault(vaultId,
+                                                    maturedAt,
+                                                    targetRaisdAmount,
+                                                    maxCapacity,
+                                                    marginRatio,
+                                                    minimumRatio,
+                                                    subscriptionPeriodAt,
+                                                    investmentPeriodAt,
+                                                    lockupPeriodAt,
+                                                    windowPeriodAt,
+                                                    vaultType)
+        let txReceipt = await transaction.wait()
     })
 
     it("depositMargin() - A issuer deposit margin", async function () {

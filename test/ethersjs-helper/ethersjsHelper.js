@@ -26,5 +26,5 @@ async function getCurrentBlock() {}
 
 async function getCurrentTimestamp() {}
 
-/// Export methods
-module.exports = { toWei, fromWei, getEventLog }
+//@dev - Export methods
+module.exports = { toWei, fromWei, getEventLog, getCurrentBlock, getCurrentTimestamp }
