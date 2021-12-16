@@ -8,7 +8,7 @@ pragma solidity ^0.6.12;
 contract VaultEnums {
 
     /**
-     * @dev - Vaults type (Product description):
+     * @dev - Vaults type (in case of both that "capital guarantee" and "non-capital guarantee"):
      *  a. 100% capital protected at maturity with an interest guarantee, customize the margin and APY
      *  b. 100% capital protected at maturity without interest guarantee, customize the margin and APY is 0
      *  c. non capital protected at maturity with limited loss, customize max loss ratio

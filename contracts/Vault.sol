@@ -11,6 +11,8 @@ import { VaultStorages } from "./vault-commons/VaultStorages.sol";
  */ 
 contract Vault is VaultStorages {
 
+    uint currentPerformance;   // [Todo]: Implement a logic to assign current performance into this variable
+
     constructor(address _issuer, uint _issuedAt) public {
         VaultInfo storage vaultInfo = vaultInfos[_issuer];
         vaultInfo.issuedAt = _issuedAt;
@@ -170,6 +172,18 @@ contract Vault is VaultStorages {
         address issuer = msg.sender;
         VaultInfo storage vaultInfo = vaultInfos[issuer];
         vaultInfo.vaultStatus = VaultStatus.ADL;
+    }
+
+
+    ///------------------------------------
+    /// Check the stats of this vault
+    ///------------------------------------
+
+    /**
+     * @dev - Current performance (APY) of this vault
+     */ 
+    function getCurrentPerformance() public view returns (uint _currentPerformance) {
+        return currentPerformance;
     }
 
 }
