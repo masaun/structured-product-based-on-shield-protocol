@@ -146,12 +146,18 @@ contract Vault is VaultStorages {
         address issuer = msg.sender;
     }
 
+
+    ///------------------------------------
+    /// Due (This vault is matured)
+    ///------------------------------------
+
     /**
      * @dev - Vault due/ADL
      */ 
     function vaultDueADL() public returns (bool) {
-        // [Todo]: 
         address issuer = msg.sender;
+        VaultInfo storage vaultInfo = vaultInfos[issuer];
+        vaultInfo.vaultStatus = VaultStatus.DUE;
     }
 
 }
