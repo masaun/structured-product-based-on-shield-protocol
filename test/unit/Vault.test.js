@@ -161,6 +161,7 @@ describe("Unit test of the Vault.sol", function () {
 
     it("depositMargin() - A issuer deposit margin", async function () {
         //@dev - A issuer deposit margin
+        const vaultId = 0
         let transaction = await vault1.depositMargin(vaultId, USDT)
         let txReceipt = await transaction.wait()
     })
