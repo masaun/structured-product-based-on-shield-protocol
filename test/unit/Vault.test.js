@@ -50,11 +50,11 @@ describe("Unit test of the Vault.sol", function () {
         //@dev - Check event log of "VaultCreated"
         const EVENT_NAME = "VaultCreated"
         const eventLog = await getEventLog(txReceipt, EVENT_NAME)
-        console.log(`event log of "VaultCreated": ${ eventLog }`)
+        console.log(`\n event log of "VaultCreated": ${ eventLog }`)
 
         const ISSUER = eventLog[0]
         const VAULT_CREATED = eventLog[1]
-        console.log(`"issuer" that is retrieved from event log of "VaultCreated": ${ ISSUER }`)
+        console.log(`\n"issuer" that is retrieved from event log of "VaultCreated": ${ ISSUER }`)
         console.log(`"vault address" that is retrieved from event log of "VaultCreated": ${ VAULT_CREATED }`)
 
         //@dev - Check
@@ -62,7 +62,7 @@ describe("Unit test of the Vault.sol", function () {
 
         //@dev - Assign a new vault created into variable of Vault No.1
         VAULT_1 = VAULT_CREATED
-        console.log(`Vault No.1:  ${ VAULT_1  }`)
+        console.log(`\n Vault No.1:  ${ VAULT_1  }`)
 
         //@dev - Create the instance of the vault No.1
         vault1 = await ethers.getContractAt("Vault", VAULT_1)
@@ -75,7 +75,7 @@ describe("Unit test of the Vault.sol", function () {
 
     it("settingVault() - A issuer set parameters of the vault", async function () {
         const currentUnixTimestamp = Math.floor(new Date / 1000)
-        console.log(`current Unix timestamp: ${ currentUnixTimestamp }`)
+        console.log(`\n current Unix timestamp: ${ currentUnixTimestamp }`)
 
         const vaultId = 0
         const maturedAt = currentUnixTimestamp + (A_DAY * 10)            // 10 days
@@ -106,7 +106,7 @@ describe("Unit test of the Vault.sol", function () {
         //@dev - Check event log of "VaultSet"
         const EVENT_NAME = "VaultSet"
         const eventLog = await getEventLog(txReceipt, EVENT_NAME)
-        console.log(`event log of "VaultSet": ${ eventLog }`)
+        console.log(`\n event log of "VaultSet": ${ eventLog }`)
 
         const ISSUER = eventLog[0]
         const VAULT_ID = eventLog[1]
@@ -120,7 +120,7 @@ describe("Unit test of the Vault.sol", function () {
         const LOCKUP_PERIOD_AT = eventLog[9]
         const WINDOW_PERIOD_AT = eventLog[10]
         const VAULT_TYPE = eventLog[11]
-        console.log(`"issuer" that is retrieved from event log of "VaultSet": ${ ISSUER }`)
+        console.log(`\n"issuer" that is retrieved from event log of "VaultSet": ${ ISSUER }`)
         console.log(`"vaultId" that is retrieved from event log of "VaultSet": ${ VAULT_ID }`)
         console.log(`"maturedAt" that is retrieved from event log of "VaultSet": ${ MATURED_AT }`)
         console.log(`"targetRaisedAmount" that is retrieved from event log of "VaultSet": ${ TARGET_RAISED_AMOUNT }`)
