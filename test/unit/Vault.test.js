@@ -11,6 +11,10 @@ describe("Unit test of the Vault.sol", function () {
     let signerOfIssuer
     let signerOfUser
 
+    //@dev - Accounts (each accounts of wallet addresses)
+    let issuer
+    let user
+
     //@dev - Deployed-contract instance
     let usdt
     let vaultFactory
@@ -33,6 +37,11 @@ describe("Unit test of the Vault.sol", function () {
         [signerOfIssuer, signerOfUser] = await ethers.getSigners()
         console.log(`Signer of a issuer: ${ JSON.stringify(signerOfIssuer) }`)
         console.log(`Signer of a user: ${ JSON.stringify(signerOfUser) }`)
+
+        issuer = signerOfIssuer.address
+        user = signerOfUser.address
+        console.log(`Wallet address of a issuer: ${ JSON.stringify(issuer) }`)
+        console.log(`Wallet address of a user: ${ JSON.stringify(user) }`)
     })
 
     it("Deploy the USDTMockToken.sol (USDT)", async function () {
@@ -42,6 +51,12 @@ describe("Unit test of the Vault.sol", function () {
         console.log(`Deployed-address of the USDTMockToken.sol: ${ USDT }`)
 
         expect(USDT).to.equal(usdt.address)
+    })
+
+    it("Mint 1000k test USDT for a issuer's wallet", async function () {
+        const mintAmount = toWei('1000000000')  /// 1000,000,000 USDT
+        let transaction = await usdt.connect(signerOfIssuer).mintUSDT(issuer, mintAmount)
+        let txReceipt = await transaction.wait()
     })
 
     it("Deploy the VaultFactory.sol", async function () {
@@ -90,7 +105,7 @@ describe("Unit test of the Vault.sol", function () {
 
         const vaultId = 0
         const maturedAt = currentUnixTimestamp + (A_DAY * 10)            // 10 days
-        const targetRaisedAmount = toWei('1000000')                       // 1000000 USDT
+        const targetRaisedAmount = toWei('1000000')                      // 1000000 USDT
         const maxCapacity = toWei('1500000')                             // 1500000 USDT
         const marginRatio = String(3 * 1e17)                             // 30 % 
         const minimumRatio = String(1 * 1e17)                            // 10 % 
@@ -160,9 +175,25 @@ describe("Unit test of the Vault.sol", function () {
     })
 
     it("depositMargin() - A issuer deposit margin", async function () {
+        const vaultId = 0
+
+        const vaultInfo  = await vault1.getVaultInfo(vaultId)
+        console.log(`\n "vaultInfo": ${ vaultInfo }`)
+
+        const targetRaisedAmount = vaultInfo[3]
+        const marginRatio = vaultInfo[5]
+        const _marginAmount = await vault1.getMarginAmount(targetRaisedAmount, marginRatio)  // [Todo]: Get (Replace) the value of "margin amount" to be assigned into approve() method below
+        console.log(`\n _marginAmount: ${ _marginAmount }`)
+        const marginAmount = fromWei(_marginAmount)
+        console.log(`\n marginAmount: ${ marginAmount }`)
+
+        //@dev - A issuer approve marginAmount of USDT for the Vault_1
+        let transaction1 = await usdt.approve(VAULT_1, marginAmount)
+        let txReceipt1 = await transaction1.wait()
+
         //@dev - A issuer deposit margin
-        let transaction = await vault1.depositMargin(vaultId, USDT)
-        let txReceipt = await transaction.wait()
+        let transaction2 = await vault1.depositMargin(vaultId, USDT)
+        let txReceipt2 = await transaction2.wait()
     })
 
     it("windowOpen() - Window period is opened", async function () {

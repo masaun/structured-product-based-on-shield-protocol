@@ -28,7 +28,7 @@ contract Vault is VaultStorages, VaultEvents {
     function settingVault(
         uint _vaultId,
         uint _maturedAt,
-        uint _targetRaisdAmount,
+        uint _targetRaisedAmount,
         uint _maxCapacity,
         uint _marginRatio,
         uint _minimumRatio,
@@ -42,7 +42,7 @@ contract Vault is VaultStorages, VaultEvents {
 
         VaultInfo storage vaultInfo = vaultInfos[_vaultId];
         vaultInfo.maturedAt = _maturedAt;
-        vaultInfo.targetRaisedAmount = _targetRaisdAmount;
+        vaultInfo.targetRaisedAmount = _targetRaisedAmount;
         vaultInfo.maxCapacity = _maxCapacity;
         vaultInfo.marginRatio = _marginRatio;
         vaultInfo.minimumRatio = _minimumRatio;
@@ -55,7 +55,7 @@ contract Vault is VaultStorages, VaultEvents {
         emit VaultSet(_issuer,
                       _vaultId,
                       _maturedAt,
-                      _targetRaisdAmount,
+                      _targetRaisedAmount,
                       _maxCapacity,
                       _marginRatio,
                       _minimumRatio,
@@ -74,22 +74,27 @@ contract Vault is VaultStorages, VaultEvents {
      */ 
     function depositMargin(uint vaultId, IERC20 usdt) public returns (bool) {
         address issuer = msg.sender;
-        
+
         VaultInfo memory vaultInfo = vaultInfos[vaultId];
-        uint _targetRaisdAmount = vaultInfo.targetRaisedAmount;
+        uint _targetRaisedAmount = vaultInfo.targetRaisedAmount;
         uint _marginRatio = vaultInfo.marginRatio;
     
         //@dev - A issuer deposit the margin amount based on the margin ratio
-        _depositMargin(issuer, usdt, _targetRaisdAmount, _marginRatio);
+        _depositMargin(issuer, usdt, _targetRaisedAmount, _marginRatio);
 
         //@dev - Calculate the actual fund-raising amount
-        uint fundRaisingAmount = _targetRaisdAmount * (100 - _marginRatio);
+        uint fundRaisingAmount = _targetRaisedAmount * (100 - _marginRatio);
     }
 
     function _depositMargin(address issuer, IERC20 usdt, uint targetRaisedAmount, uint marginRatio) internal returns (bool) {
         //@dev - In advance, a caller (issuer) should approve their marginAmount of usdt.
-        uint marginAmount = targetRaisedAmount * marginRatio;
+        uint marginAmount = getMarginAmount(targetRaisedAmount, marginRatio);
         usdt.transferFrom(issuer, address(this), marginAmount);
+    }
+
+    function getMarginAmount(uint targetRaisedAmount, uint marginRatio) public view returns (uint _marginAmount) {
+        uint marginAmount = targetRaisedAmount * marginRatio;
+        return marginAmount;
     }
 
 
