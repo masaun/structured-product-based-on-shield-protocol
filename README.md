@@ -34,15 +34,19 @@ npm install
 ```
 npm run test:Vault
 ```
+( `$ npx hardhat test ./test/unit/Vault.test.js --network hardhat` )
+
+<br>
 
 - Unit test: `VaultFactory.sol`
 ```
 npm run test:VaultFactory
 ```
+( `$ npx hardhat test ./test/unit/VaultFactory.test.js --network hardhat` )
 
 <br>
 
-- Scenario test (※ This has not implemented yet)
+- Scenario test (※ NOTE: This scenario test has not implemented yet)
 ```
 npm run test:Scenario
 ```
@@ -51,7 +55,7 @@ npm run test:Scenario
 <br>
 
 ## 【Demo Video】
-- This demo video is that execute unit tests of the Vault.sol and VaultFactory.sol:  
+- This demo video is that execute `unit tests` of the `Vault.sol` and `VaultFactory.sol` :  
   https://youtu.be/uH0hdGHwSFI
 
 <br>
