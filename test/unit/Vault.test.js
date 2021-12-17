@@ -12,12 +12,14 @@ describe("Unit test of the Vault.sol", function () {
     let signerOfUser
 
     //@dev - Deployed-contract instance
+    let usdt
     let vaultFactory
     let vault1
     let vault2
     let vault3
 
     //@dev - Deployed-addresses
+    let USDT
     let VAULT_FACTORY
     let VAULT_1
     let VAULT_2
@@ -33,13 +35,22 @@ describe("Unit test of the Vault.sol", function () {
         console.log(`Signer of a user: ${ JSON.stringify(signerOfUser) }`)
     })
 
+    it("Deploy the USDTMockToken.sol (USDT)", async function () {
+        const USDTMockToken = await ethers.getContractFactory("USDTMockToken")
+        usdt = await USDTMockToken.deploy()
+        USDT = usdt.address
+        console.log(`Deployed-address of the USDTMockToken.sol: ${ USDT }`)
+
+        expect(USDT).to.equal(usdt.address)
+    })
+
     it("Deploy the VaultFactory.sol", async function () {
         const VaultFactory = await ethers.getContractFactory("VaultFactory")
         vaultFactory = await VaultFactory.deploy()
         VAULT_FACTORY = vaultFactory.address
         console.log(`Deployed-address of the VaultFactory.sol: ${ VAULT_FACTORY }`)
 
-        expect(VAULT_FACTORY).to.equal(vaultFactory.address);
+        expect(VAULT_FACTORY).to.equal(vaultFactory.address)
     })
 
     it("Should issue a new vault", async function () {
@@ -149,7 +160,9 @@ describe("Unit test of the Vault.sol", function () {
     })
 
     it("depositMargin() - A issuer deposit margin", async function () {
-
+        //@dev - A issuer deposit margin
+        let transaction = await vault1.depositMargin(vaultId, USDT)
+        let txReceipt = await transaction.wait()
     })
 
     it("windowOpen() - Window period is opened", async function () {
