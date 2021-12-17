@@ -54,7 +54,7 @@ describe("Unit test of the Vault.sol", function () {
     })
 
     it("Mint 1000k test USDT for a issuer's wallet", async function () {
-        const mintAmount = toWei('1000000')  /// 1000,000 USDT
+        const mintAmount = toWei('1000000000')  /// 1000,000,000 USDT
         let transaction = await usdt.connect(signerOfIssuer).mintUSDT(issuer, mintAmount)
         let txReceipt = await transaction.wait()
     })
@@ -105,7 +105,7 @@ describe("Unit test of the Vault.sol", function () {
 
         const vaultId = 0
         const maturedAt = currentUnixTimestamp + (A_DAY * 10)            // 10 days
-        const targetRaisedAmount = toWei('1000000')                       // 1000000 USDT
+        const targetRaisedAmount = toWei('1000000')                      // 1000000 USDT
         const maxCapacity = toWei('1500000')                             // 1500000 USDT
         const marginRatio = String(3 * 1e17)                             // 30 % 
         const minimumRatio = String(1 * 1e17)                            // 10 % 
@@ -182,7 +182,10 @@ describe("Unit test of the Vault.sol", function () {
 
         const targetRaisedAmount = vaultInfo[3]
         const marginRatio = vaultInfo[5]
-        const marginAmount = await vault1.getMarginAmount(targetRaisedAmount, marginRatio)  // [Todo]: Get (Replace) the value of "margin amount" to be assigned into approve() method below
+        const _marginAmount = await vault1.getMarginAmount(targetRaisedAmount, marginRatio)  // [Todo]: Get (Replace) the value of "margin amount" to be assigned into approve() method below
+        console.log(`\n _marginAmount: ${ _marginAmount }`)
+        const marginAmount = fromWei(_marginAmount)
+        console.log(`\n marginAmount: ${ marginAmount }`)
 
         //@dev - A issuer approve marginAmount of USDT for the Vault_1
         let transaction1 = await usdt.approve(VAULT_1, marginAmount)
