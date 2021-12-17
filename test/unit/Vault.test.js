@@ -149,7 +149,7 @@ describe("Unit test of the Vault.sol", function () {
     })
 
     it("depositMargin() - A issuer deposit margin", async function () {
-        // [Todo]: 
+
     })
 
     it("windowOpen() - Window period is opened", async function () {
