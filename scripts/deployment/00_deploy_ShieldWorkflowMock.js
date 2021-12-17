@@ -2,7 +2,7 @@ const { ethers } = require("hardhat")
 
 
 /**
- * @dev - This is a deployment file for the StructuredProduct.sol
+ * @dev - This is a deployment file for the ShieldWorkflowMock.sol
  * Network: BSC testnet
  */
 async function main() {
@@ -11,9 +11,9 @@ async function main() {
     const _privateDAIPool = "0xaDea523A790b34CF6D0989a803262b2A38FD7cdA"  // @dev - Assign the PrivateDAIPool.sol deployed 
     const _publicDAIPool = "0xb3F55De3a56F15d6C94cF74753F52e447519E563"   // @dev - Assign the PublicDAIPool.sol deployed
 
-    const StructuredProduct = await ethers.getContractFactory("StructuredProduct")
-    const structuredProduct = await StructuredProduct.deploy(_sldDAIContract, _privateDAIPool, _publicDAIPool)
-    console.log("StructuredProduct deployed to:", structuredProduct.address)
+    const ShieldWorkflowMock = await ethers.getContractFactory("ShieldWorkflowMock")
+    const shieldWorkflowMock = await ShieldWorkflowMock.deploy(_sldDAIContract, _privateDAIPool, _publicDAIPool)
+    console.log("ShieldWorkflowMock deployed to:", shieldWorkflowMock.address)
 }
 
 main()
