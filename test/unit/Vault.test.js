@@ -160,10 +160,15 @@ describe("Unit test of the Vault.sol", function () {
     })
 
     it("depositMargin() - A issuer deposit margin", async function () {
+        //@dev - A issuer approve marginAmount of USDT for the Vault_1
+        const marginAmount = 0  // [Todo]: Get (Replace) the value of "margin amount" to be assigned into approve() method below
+        let transaction1 = await usdt.approve(VAULT_1, marginAmount)
+        let txReceipt1 = await transaction1.wait()
+
         //@dev - A issuer deposit margin
         const vaultId = 0
-        let transaction = await vault1.depositMargin(vaultId, USDT)
-        let txReceipt = await transaction.wait()
+        let transaction2 = await vault1.depositMargin(vaultId, USDT)
+        let txReceipt2 = await transaction2.wait()
     })
 
     it("windowOpen() - Window period is opened", async function () {

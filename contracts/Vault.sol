@@ -88,8 +88,13 @@ contract Vault is VaultStorages, VaultEvents {
 
     function _depositMargin(address issuer, IERC20 usdt, uint targetRaisedAmount, uint marginRatio) internal returns (bool) {
         //@dev - In advance, a caller (issuer) should approve their marginAmount of usdt.
-        uint marginAmount = targetRaisedAmount * marginRatio;
+        uint marginAmount = getMarginAmount(targetRaisedAmount, marginRatio);
         usdt.transferFrom(issuer, address(this), marginAmount);
+    }
+
+    function getMarginAmount(uint targetRaisedAmount, uint marginRatio) public view returns (uint _marginAmount) {
+        uint marginAmount = targetRaisedAmount * marginRatio;
+        return marginAmount;
     }
 
 
