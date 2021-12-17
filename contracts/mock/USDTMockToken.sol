@@ -18,4 +18,8 @@ contract USDTMockToken is ERC20 {
         _setupDecimals(DECIMALS);
     }
 
+    function mintUSDT(address to, uint amount) public returns (bool) {
+        _mint(to, amount);
+    }
+
 }
