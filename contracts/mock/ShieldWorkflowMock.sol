@@ -5,13 +5,13 @@ import {
     ISLDContract, 
     IPrivatePool, 
     IPublicPool 
-} from "./shield-contracts-v1-beta/SLDInterfaces.sol";
+} from "../shield-contracts-v1-beta/SLDInterfaces.sol";
 
 
 /**
- * @dev - This is the smart contract that deal with a structured-product based on the Shield Protocol
+ * @dev - This is the smart contract that is the workflow of the Shield Protocol
  */ 
-contract StructuredProduct {
+contract ShieldWorkflowMock {
 
     ISLDContract public sldDAIContract;
     IPrivatePool public privateDAIPool;
