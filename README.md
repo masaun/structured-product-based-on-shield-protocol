@@ -1,23 +1,31 @@
 # Structured-product based on Shield Protocol
-- 【GR12🌍】Build "structured product" (=Combining assets) on top of Shield Protocol🛡 on BSC：   
-https://gitcoin.co/issue/shielddaodev/shield-bounties/1/100027177
+## 【Overview】
+- This is the smart contract of structured products on the top of Shield Protocol that enable non-professional users to earn yield in a simple manner.
 
 <br>
 
-## 【Deployment】
-- Deployment on local network
-```
-npm run deploy-local:StructuredProduct
-```
-( `$ npx hardhat run scripts/deployment/00_deploy_StructuredProduct.js --network hardhat` )
+## 【Workflow】
+- Workflow of this smart contract is following this document below that is created by the Shield Protocol  
+  https://docs.google.com/document/d/1ESUCvi5gzarBbKjBsCwBLrzbHuQ4At1IhbYs6n0glIE/edit
 
 <br>
 
-- Deployment on BSC testnet
+## 【Technology stack】
+- Solidity (Solc): v0.6.12
+- Hardhat: v2.6.1
+- ethers.js: v5.5.2
+- Node.js: v16.7.0
+- @openzeppelin/contracts: v3.4.0
+
+etc...
+
+<br>
+
+## 【Installation】
+- Install NPM modules
 ```
-npm run deploy-bsc_testnet:StructuredProduct
+npm install
 ```
-( `$ npx hardhat run scripts/deployment/00_deploy_StructuredProduct.js --network bsc_testnet` )
 
 <br>
 
@@ -47,3 +55,28 @@ npm run test:Scenario
   https://youtu.be/uH0hdGHwSFI
 
 <br>
+
+<hr>
+
+## 【References】
+- Shield Protocol
+  - Website: https://shieldex.io 
+  - Docs: https://docs.shieldex.io/ 
+  - Lightpaper: https://docsend.com/view/fnsz5t5mj26qp8nh
+
+<br>
+
+- Shield Protocol (for implementation)  
+  - Deployed-addresses: https://docs.shieldex.io/trading-api-references/overview/smart-contracts-overview#bsc-testnet  
+  - Full ABI of Shield Protocol v1: https://docs.shieldex.io/trading-api-references/addendum/full-abi-on-shield-protocol-v1  
+
+<br>
+
+- Derivatives (Option) related protocols 
+  - Opyn Protocol: https://www.opyn.co/
+  - Ribbon.finance: https://app.ribbon.finance/
+
+<br>
+
+- 【GR12】Build structured product on top of Shield protocol  
+   https://gitcoin.co/issue/shielddaodev/shield-bounties/1/100027177
